@@ -48,6 +48,11 @@
 					$userId=$mysqli->insert_id;
 					$msg = "Success";
 					
+					// User Registration Alert to Admin
+					$msgEmail = "New User Registered at Software Projects Android App: ".$user['EmailAddress'];
+					$msgEmail = wordwrap($msgEmail,100);
+					mail("kashif@kashifirshad.com","New User Registered at Software Projects Android App",$msgEmail);
+					
 					$query = "INSERT INTO EmailTokens(Email, Date, Token) VALUES( '".$user['EmailAddress']."','$date',$rand )";
 					$mysqli->query($query) or die('Errant query:  '.$query);
 					

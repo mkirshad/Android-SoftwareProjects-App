@@ -53,6 +53,11 @@
 					
 					$mysqli->query($query) or die('Errant query:  '.$query);
 					$userArr[$user['Id']]=$mysqli->insert_id;
+					
+					// User Registration Alert to Admin
+					$msgEmail = "New User Registered at Software Projects Android App: ".$user['EmailAddress'];
+					$msgEmail = wordwrap($msgEmail,100);
+					mail("kashif@kashifirshad.com","New User Registered at Software Projects Android App",$msgEmail);
 				}ELSE{
 					$isLocked = $row['IsLocked'];
 					$userArr[$user['Id']]=$row['Id'];
@@ -89,6 +94,12 @@
 									.$dateTime."','". $dateTime."' ,'" . $userArr[$proj['UserId']] . "','".$projParent. "')";
 							$mysqli->query($query) or die('Errant query:  '.$query);
 							$projArr[$proj['Id']]=$mysqli->insert_id;
+							
+							// New Story Alert to Admin
+							$msgEmail = "New Topic/Story at Software Projects Android App: ".$user['EmailAddress']." ".$proj['Story'];
+							$msgEmail = wordwrap($msgEmail,100);
+							mail("kashif@kashifirshad.com","New Story at Software Projects Android App",$msgEmail);
+
 						}elseif($proj['IsSynched'] == 0){
 							$projArr[$proj['Id']]=$proj['ServerId'];
 							
@@ -101,7 +112,12 @@
 							   , UpdatedAt = '".$dateTime."'
 							   WHERE Id = ". $proj['ServerId'];
 							   $mysqli->query($query);
-							
+
+							// Story Update Alert to Admin
+							$msgEmail = "New Topic/Story at Software Projects Android App: ".$user['EmailAddress']." ".$proj['Story'];
+							$msgEmail = wordwrap($msgEmail,100);
+							mail("kashif@kashifirshad.com","New Story at Software Projects Android App",$msgEmail);							   
+
 						}else{
 							$projArr[$proj['Id']]=$proj['ServerId'];
 						}

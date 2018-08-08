@@ -535,7 +535,8 @@ Log.e("UserQuery***",selectQuery);
         values.put("UpdatedAt", user.getUpdatedAt());
         values.put("IsSynched", user.getSynched());
         values.put("ServerId", user.getServerId());
-        values.put("IsLoggedIn", user.getIsLoggedIn());
+        if(user.getIsLoggedIn() != -1)
+            values.put("IsLoggedIn", user.getIsLoggedIn());
 
 
         // insert row

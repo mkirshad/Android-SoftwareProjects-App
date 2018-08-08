@@ -22,7 +22,6 @@ import java.util.TimerTask;
 
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 import static android.Manifest.permission.INTERNET;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 
 public class MainActivity extends Activity {
@@ -57,13 +56,13 @@ public class MainActivity extends Activity {
         final DatabaseHelper dh = new DatabaseHelper(getApplicationContext());
         // Start SignUpActivity or Login Activity
         if(this.user == null || this.user.getEmailAddress() == null){
-            Log.e("***user1****","***user1****");
             this.user = dh.getLoggedInUser();
-            Log.e("***user2****","***user2****");
-            Intent intent = new Intent(MainActivity.this, SignUpSignInActivity.class);
-            startActivity(intent);
-            finish();
-            return;
+            if(this.user == null || this.user.getEmailAddress() == null) {
+                Intent intent = new Intent(MainActivity.this, SignUpSignInActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
         }
 
 
@@ -274,19 +273,17 @@ public class MainActivity extends Activity {
         ActivityCompat.requestPermissions(MainActivity.this, new String[]
                 {
                         INTERNET,
-                        ACCESS_NETWORK_STATE,
-                        READ_EXTERNAL_STORAGE
+                        ACCESS_NETWORK_STATE
                 }, RequestPermissionCode);
     }
 
     private boolean checkPermissions()
     {
 
-        int res1 = getApplicationContext().checkCallingOrSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE);
         int res2 = getApplicationContext().checkCallingOrSelfPermission(android.Manifest.permission.ACCESS_NETWORK_STATE);
         int res3 = getApplicationContext().checkCallingOrSelfPermission(android.Manifest.permission.INTERNET);
 
-        if ((res1 == PackageManager.PERMISSION_GRANTED) && (res2 == PackageManager.PERMISSION_GRANTED)
+        if ( (res2 == PackageManager.PERMISSION_GRANTED)
         && res3 == PackageManager.PERMISSION_GRANTED
             ){
             return true;
